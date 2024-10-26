@@ -8,6 +8,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ContactService
 {
+    private ?User $user = null;
+
     public function __construct(private ContactRepository $contactRepository)
     {
     }
@@ -25,25 +27,25 @@ class ContactService
 
     public function getContactById(int $id): Contact
     {
-        /** @var User $user */
-        $user = auth()->user();
-
-        return $this->contactRepository->findById($id, $user);
+        return $this->contactRepository->findById($id, $this->getUser());
     }
 
     public function updateContact(int $id, array $data): Contact
     {
-        /** @var User $user */
-        $user = auth()->user();
-
-        return $this->contactRepository->update($id, $user, $data);
+        return $this->contactRepository->update($id, $this->getUser(), $data);
     }
 
     public function deleteContact($id): void
     {
-        /** @var User $user */
-        $user = auth()->user();
+        $this->contactRepository->delete($id, $this->getUser());
+    }
 
-        $this->contactRepository->delete($id, $user);
+    private function getUser(): User
+    {
+        if (!$this->user) {
+            $this->user = auth()->user();
+        }
+
+        return $this->user;
     }
 }

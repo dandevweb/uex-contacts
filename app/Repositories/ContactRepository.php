@@ -18,4 +18,9 @@ class ContactRepository
             ->orderBy($data['sort_by'], $data['sort_order'])
             ->paginate($data['per_page']);
     }
+
+    public function create(array $data): Contact
+    {
+        return Contact::create($data);
+    }
 }

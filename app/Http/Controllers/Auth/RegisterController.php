@@ -19,8 +19,9 @@ class RegisterController extends Controller
         $user = User::create($validatedData);
 
         return response()->json([
-            'message' => 'User registered successfully',
-            'user'    => $user,
+            'data'         => $user->only('name', 'email'),
+            'access_token' => $user->createToken('creator')->plainTextToken,
+            'token_type'   => 'Bearer',
         ], 201);
     }
 }

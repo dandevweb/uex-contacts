@@ -6,7 +6,7 @@ use App\Models\User;
 
 uses(RefreshDatabase::class);
 
-it('registers a new user successfully', function () {
+it('registers a new user successfully and returns an access token', function () {
     $response = $this->postJson(route('register'), [
         'name'                  => 'John Doe',
         'email'                 => 'john@example.com',
@@ -16,11 +16,12 @@ it('registers a new user successfully', function () {
 
     $response->assertStatus(201)
              ->assertJson([
-                 'message' => 'User registered successfully',
-                 'user'    => [
+                 'data' => [
                      'name'  => 'John Doe',
                      'email' => 'john@example.com',
                  ],
+                 'access_token' => true, // Check if access_token is present
+                 'token_type'   => 'Bearer', // Check if token_type is 'Bearer'
              ]);
 
     $this->assertDatabaseHas('users', [
@@ -31,6 +32,7 @@ it('registers a new user successfully', function () {
     $user = User::where('email', 'john@example.com')->first();
     expect(Hash::check('Password123', $user->password))->toBeTrue();
 });
+
 
 it('fails to register with a duplicate email', function () {
     User::create([

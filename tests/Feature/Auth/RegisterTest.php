@@ -1,10 +1,7 @@
 <?php
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-
-uses(RefreshDatabase::class);
 
 it('registers a new user successfully and returns an access token', function () {
     $response = $this->postJson(route('register'), [

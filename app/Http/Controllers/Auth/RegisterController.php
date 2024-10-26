@@ -20,7 +20,7 @@ class RegisterController extends Controller
 
         return response()->json([
             'data'         => $user->only('name', 'email'),
-            'access_token' => $user->createToken('creator')->plainTextToken,
+            'access_token' => $user->createToken('default')->plainTextToken,
             'token_type'   => 'Bearer',
         ], 201);
     }

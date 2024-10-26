@@ -34,6 +34,6 @@ class RecoveryPasswordController extends Controller
 
         event(new ForgotPassword($user, $token));
 
-        return response()->json(['message' => 'E-mail enviado com sucesso!']);
+        return response()->json(['message' => __('E-mail sent successfully!')]);
     }
 }

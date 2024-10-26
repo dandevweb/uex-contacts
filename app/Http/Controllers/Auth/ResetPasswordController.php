@@ -27,6 +27,6 @@ class ResetPasswordController extends Controller
 
         PasswordResetTokens::whereEmail($email)->delete();
 
-        return response()->json(['message' => 'Senha resetada com sucesso!']);
+        return response()->json(['message' => __('Password reset successfully')]);
     }
 }

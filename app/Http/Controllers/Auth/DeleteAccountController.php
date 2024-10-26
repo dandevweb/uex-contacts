@@ -17,9 +17,11 @@ class DeleteAccountController extends Controller
 
         $user = $request->user();
 
-        Hash::check($request->password, $user->password)
-            ? $user->delete()
-            : abort(422, 'Senha incorreta');
+        if (!Hash::check($request->password, $user->password)) {
+            return response()->json(['message' => __('Invalid password')], 422);
+        }
+
+        $user->delete();
 
         return response()->noContent();
     }

@@ -11,8 +11,8 @@ class LoginController extends Controller
     public function __invoke(Request $request): JsonResponse
     {
         $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required',
+            'email'    => ['required', 'email'],
+            'password' => ['required'],
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
@@ -26,6 +26,6 @@ class LoginController extends Controller
             ], 200);
         }
 
-        return response()->json(['message' => 'Invalid credentials'], 401);
+        return response()->json(['message' => __('Invalid credentials')], 401);
     }
 }

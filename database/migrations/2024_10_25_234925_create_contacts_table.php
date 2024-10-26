@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     public function up(): void
     {
         Schema::create('contacts', function (Blueprint $table) {
@@ -16,7 +15,7 @@ return new class extends Migration
             $table->char('phone', 15);
             $table->string('address');
             $table->string('number');
-            $table->string('complement');
+            $table->string('complement')->nullable();
             $table->string('neighborhood');
             $table->string('city');
             $table->char('state', 2);

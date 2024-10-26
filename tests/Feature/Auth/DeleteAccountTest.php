@@ -48,3 +48,22 @@ it('should return an error when trying to delete an account without being authen
     ])
     ->assertUnauthorized();
 });
+
+it('deletes all contacts when a user is deleted', function () {
+    // Create a user with associated contacts
+    $user = User::factory()->hasContacts(3)->create();
+
+    $contacts = $user->contacts;
+    // Verify that contacts exist in the database
+    foreach ($contacts as $contact) {
+        $this->assertDatabaseHas('contacts', ['id' => $contact->id]);
+    }
+
+    // Delete the user
+    $user->delete();
+
+    // Check that the contacts no longer exist in the database
+    foreach ($contacts as $contact) {
+        $this->assertDatabaseMissing('contacts', ['id' => $contact->id]);
+    }
+});

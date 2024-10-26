@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Application;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Configuration\{Exceptions, Middleware};

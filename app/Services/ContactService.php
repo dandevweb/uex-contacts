@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Contact;
+use App\Models\{Contact, User};
 use App\Repositories\ContactRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -24,5 +24,13 @@ class ContactService
     {
         $data['user_id'] = auth()->id();
         return $this->contactRepository->create($data);
+    }
+
+    public function getContactById(int $id): Contact
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        return $this->contactRepository->findById($id, $user);
     }
 }

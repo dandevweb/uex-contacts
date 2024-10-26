@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Contact;
+use App\Models\{Contact, User};
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ContactRepository
@@ -22,5 +22,10 @@ class ContactRepository
     public function create(array $data): Contact
     {
         return Contact::create($data);
+    }
+
+    public function findById(int $id, User $user): Contact
+    {
+        return $user->contacts()->findOrFail($id);
     }
 }

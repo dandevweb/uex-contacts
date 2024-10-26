@@ -10,6 +10,10 @@ class Contact extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'number' => 'string',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

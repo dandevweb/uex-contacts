@@ -29,4 +29,9 @@ class ContactController extends Controller
     {
         return new ContactResource($this->contactService->createContact($request->validated()));
     }
+
+    public function show(int $contact): ContactResource
+    {
+        return new ContactResource($this->contactService->getContactById($contact));
+    }
 }

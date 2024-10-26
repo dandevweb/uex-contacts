@@ -14,6 +14,8 @@ class Contact extends Model
         'number' => 'string',
     ];
 
+    protected $hidden = ['user_id'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

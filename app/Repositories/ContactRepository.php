@@ -26,6 +26,15 @@ class ContactRepository
 
     public function findById(int $id, User $user): Contact
     {
-        return $user->contacts()->findOrFail($id);
+        return $user->contacts()->whereId($id)->firstOrFail();
+    }
+
+    public function update(int $id, User $user, array $data): Contact
+    {
+        $contact = $user->contacts()->whereId($id)->firstOrFail();
+
+        $contact->update($data);
+
+        return $contact->fresh();
     }
 }

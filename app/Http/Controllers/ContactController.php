@@ -9,11 +9,8 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ContactController extends Controller
 {
-    protected ContactService $contactService;
-
-    public function __construct(ContactService $contactService)
+    public function __construct(private ContactService $contactService)
     {
-        $this->contactService = $contactService;
     }
 
     public function index(ContactFilterRequest $request): AnonymousResourceCollection
@@ -33,5 +30,10 @@ class ContactController extends Controller
     public function show(int $contact): ContactResource
     {
         return new ContactResource($this->contactService->getContactById($contact));
+    }
+
+    public function update(ContactRequest $request, int $contact): ContactResource
+    {
+        return new ContactResource($this->contactService->updateContact($contact, $request->validated()));
     }
 }

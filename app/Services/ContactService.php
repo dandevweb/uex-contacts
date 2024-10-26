@@ -8,11 +8,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ContactService
 {
-    protected ContactRepository $contactRepository;
-
-    public function __construct(ContactRepository $contactRepository)
+    public function __construct(private ContactRepository $contactRepository)
     {
-        $this->contactRepository = $contactRepository;
     }
 
     public function getFilteredAndSortedContacts(int $userId, array $validatedData): LengthAwarePaginator
@@ -32,5 +29,13 @@ class ContactService
         $user = auth()->user();
 
         return $this->contactRepository->findById($id, $user);
+    }
+
+    public function updateContact(int $id, array $data): Contact
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        return $this->contactRepository->update($id, $user, $data);
     }
 }

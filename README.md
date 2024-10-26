@@ -32,11 +32,7 @@ Crie o arquivo .env a partir do arquivo .env.example
   cp .env.example .env
 ```
 
-**Insira os dados do banco manualmente no arquivo .env**
-
-```bash
-  php artisan key:generate
-```
+**Insira os dados do banco manualmente no arquivo .env ou utlize o próprio sqlite já pre-setado**
 
 Instale as dependências
 
@@ -46,6 +42,18 @@ Instale as dependências
 
 ```bash
     npm install
+```
+
+Gere a chave
+
+```bash
+  php artisan key:generate
+```
+
+Executando os testes
+
+```bash
+  php artisan test
 ```
 
 Caso queria utilizar um banco local "zerado", execute as migrations e seeders
@@ -60,4 +68,12 @@ Execute o servido embutido do Laravel
   php artisan serve
 ```
 
-Siga a [Documentação da API](https://documenter.getpostman.com/view/22300616/2sAY4sjjLm) alterando somente a url base para http://localhost:8080
+### Configuração de Funcionalidades
+
+-   **Reset de Senha**: Para habilitar a funcionalidade de reset de senha, configure o envio de emails no arquivo `.env`. Alternativamente, você pode utilizar o log predefinido que já vem configurado no projeto.
+
+-   **Cadastro de Contatos**: Para implementar o cadastro de contatos, será necessário criar uma chave de API do Google Maps. Certifique-se de configurar o arquivo `.env` com a variável `GOOGLE_MAPS_API_KEY`.
+
+-   **Husky**: Utilizamos a ferramenta Husky como uma dependência de desenvolvimento para automatizar a execução de testes, realizar análise estática e formatar o código em cada commit realizado. Isso garante que o código mantenha um padrão de qualidade e esteja sempre funcional.
+
+-   **Documentação da API**: Para mais informações sobre como utilizar a API, siga a [Documentação da API](https://documenter.getpostman.com/view/22300616/2sAY4sjjLm). Lembre-se de alterar a URL base para `http://localhost:8080` para testes locais.

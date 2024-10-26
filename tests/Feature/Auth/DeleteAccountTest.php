@@ -1,31 +1,50 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
-use function Pest\Laravel\{assertDatabaseMissing, assertDatabaseHas};
+use function Pest\Laravel\{deleteJson, actingAs};
 
-it('deletes the authenticated user account successfully', function () {
-    $user = User::factory()->create(['password' => 'Password1']);
-
-    assertDatabaseHas('users', [
-        'id'    => $user->id,
-        'email' => $user->email,
+it('should be able to delete the account with the correct password', function () {
+    $user = User::factory()->create([
+        'password' => Hash::make('correct-password'),
     ]);
 
-    $this->actingAs($user)
-        ->deleteJson(route('users.delete'))
-        ->assertStatus(204);
+    actingAs($user);
 
-    assertDatabaseMissing('users', [
-        'id'    => $user->id,
-        'email' => $user->email,
+    deleteJson(route('users.delete'), [
+        'password' => 'correct-password',
+    ])
+    ->assertNoContent();
+
+    $this->assertDatabaseMissing('users', ['id' => $user->id]);
+});
+
+it('should return an error when password is missing', function () {
+    $user = User::factory()->create();
+
+    actingAs($user);
+
+    deleteJson(route('users.delete'), [])
+        ->assertJsonValidationErrors(['password']);
+});
+
+it('should return an error when the password is incorrect', function () {
+    $user = User::factory()->create([
+        'password' => Hash::make('correct-password'), // Define a senha correta
     ]);
+
+    actingAs($user);
+
+    deleteJson(route('users.delete'), [
+        'password' => 'incorrect-password',
+    ])
+    ->assertStatus(422);
 });
 
-it('does not allow unauthenticated users to delete an account', function () {
-    $this->deleteJson(route('users.delete'))
-        ->assertStatus(401);
+it('should return an error when trying to delete an account without being authenticated', function () {
+    deleteJson(route('users.delete'), [
+        'password' => 'any-password',
+    ])
+    ->assertUnauthorized();
 });
-
-
-todo('deletes related data when user account is deleted');

@@ -31,7 +31,7 @@ class ContactRepository
 
     public function update(int $id, User $user, array $data): Contact
     {
-        $contact = $user->contacts()->whereId($id)->firstOrFail();
+        $contact = $this->findById($id, $user);
 
         $contact->update($data);
 
@@ -40,7 +40,7 @@ class ContactRepository
 
     public function delete(int $id, User $user): void
     {
-        $contact = $user->contacts()->whereId($id)->firstOrFail();
+        $contact = $this->findById($id, $user);
 
         $contact->delete();
     }

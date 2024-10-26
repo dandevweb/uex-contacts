@@ -37,4 +37,11 @@ class ContactRepository
 
         return $contact->fresh();
     }
+
+    public function delete(int $id, User $user): void
+    {
+        $contact = $user->contacts()->whereId($id)->firstOrFail();
+
+        $contact->delete();
+    }
 }

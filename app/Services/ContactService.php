@@ -38,4 +38,12 @@ class ContactService
 
         return $this->contactRepository->update($id, $user, $data);
     }
+
+    public function deleteContact($id): void
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        $this->contactRepository->delete($id, $user);
+    }
 }
